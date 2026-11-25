@@ -14,7 +14,7 @@ on:
 
 permissions:
   contents: read
-  actions: read # deploy-pages looks up the uploaded artifact by ID
+  actions: read
   pages: write
   id-token: write
 
@@ -23,11 +23,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
 
@@ -37,5 +34,15 @@ jobs:
         with:
           path: site
 
+  # Deploy in its own job. Run right after the upload in the same job, deploy-pages can look up the
+  # artifact before GitHub lists it ("No artifacts named github-pages", actions/deploy-pages#451).
+  # A separate job also lets "Re-run failed jobs" retry the deploy with the same artifact.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v5
