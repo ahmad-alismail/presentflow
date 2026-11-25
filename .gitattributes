@@ -1,0 +1,7 @@
+# Consistent LF line endings in the repository, regardless of core.autocrlf.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.ico binary
+*.wav binary
+*.woff2 binary

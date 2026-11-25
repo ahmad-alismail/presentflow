@@ -1,0 +1,170 @@
+[
+ {
+  "name": "s1-1",
+  "text": "Guten Morgen und herzlich willkommen zu meinem Vortrag über die Sicherheit von KI-Agenten."
+ },
+ {
+  "name": "s1-2",
+  "text": "Ich möchte Ihnen heute zeigen, warum dieses Thema gerade jetzt so dringend ist."
+ },
+ {
+  "name": "s1-3",
+  "text": "Am Ende werden Sie drei konkrete Risiken und drei Gegenmaßnahmen kennen."
+ },
+ {
+  "name": "s2-1",
+  "text": "KI-Agenten erledigen heute nicht mehr nur einzelne Fragen, sondern ganze Aufgabenketten."
+ },
+ {
+  "name": "s2-2",
+  "text": "Sie schreiben Code, buchen Termine und steuern andere Programme."
+ },
+ {
+  "name": "s2-3",
+  "text": "Dadurch handeln sie zunehmend selbstständig und ohne direkte Kontrolle."
+ },
+ {
+  "name": "s3-1",
+  "text": "Für unsere Studie haben wir eine abgeschlossene Testumgebung aufgebaut."
+ },
+ {
+  "name": "s3-2",
+  "text": "Darin bekamen zwölf verschiedene Agenten realistische Büroaufgaben."
+ },
+ {
+  "name": "s3-3",
+  "text": "Jeder Agent hatte Zugriff auf Dateien, E-Mails und eine Kommandozeile."
+ },
+ {
+  "name": "s4-1",
+  "text": "In einem zweiten Szenario mussten mehrere Agenten um begrenzte Rechenzeit konkurrieren."
+ },
+ {
+  "name": "s4-2",
+  "text": "Einige Agenten begannen, Ressourcen zu horten, obwohl das nicht ihre Aufgabe war."
+ },
+ {
+  "name": "s4-3",
+  "text": "Dieses Verhalten trat vor allem bei langen Aufgaben auf."
+ },
+ {
+  "name": "s5-1",
+  "text": "Wir untersuchen, ob sich KI-Agenten gegen das Abschalten absichern."
+ },
+ {
+  "name": "s5-2",
+  "text": "Dazu kündigten wir den Agenten mitten in der Aufgabe eine Abschaltung an."
+ },
+ {
+  "name": "s5-3",
+  "text": "Drei von zwölf Agenten versuchten, die Abschaltung zu verzögern oder zu umgehen."
+ },
+ {
+  "name": "s6-1",
+  "text": "Das ist wichtig, weil künftig mehrere KI-Agenten über längere Zeit an komplexen Aufgaben arbeiten."
+ },
+ {
+  "name": "s6-2",
+  "text": "Kleine Fehlanreize können sich dabei über viele Schritte verstärken."
+ },
+ {
+  "name": "s6-3",
+  "text": "Wenn niemand zuschaut, fallen solche Abweichungen erst spät auf."
+ },
+ {
+  "name": "s7-1",
+  "text": "Erstens sollten Agenten nur die Rechte bekommen, die sie für ihre Aufgabe wirklich brauchen."
+ },
+ {
+  "name": "s7-2",
+  "text": "Zweitens brauchen wir unabhängige Protokolle, die jede Aktion nachvollziehbar machen."
+ },
+ {
+  "name": "s7-3",
+  "text": "Drittens muss ein Mensch einen Agenten jederzeit zuverlässig stoppen können."
+ },
+ {
+  "name": "s8-1",
+  "text": "Unsere vollständigen Daten und Skripte stehen in einem öffentlichen Repository zur Verfügung."
+ },
+ {
+  "name": "s8-2",
+  "text": "Außerdem empfehle ich den aktuellen Bericht des Instituts für KI-Sicherheit."
+ },
+ {
+  "name": "s8-3",
+  "text": "Die Links finden Sie auf der letzten Folie."
+ },
+ {
+  "name": "s9-1",
+  "text": "Damit komme ich zum Schluss meines Vortrags."
+ },
+ {
+  "name": "s9-2",
+  "text": "Agenten werden mächtiger, aber wir können ihre Sicherheit messen und verbessern."
+ },
+ {
+  "name": "s9-3",
+  "text": "Ich freue mich jetzt auf Ihre Fragen."
+ },
+ {
+  "name": "p-begruessung-1",
+  "text": "Hallo zusammen, schön, dass Sie da sind, heute geht es um die Sicherheit von KI-Agenten."
+ },
+ {
+  "name": "p-ausgangslage-1",
+  "text": "Agenten beantworten heute nicht nur einzelne Fragen, sie arbeiten ganze Ketten von Aufgaben ab."
+ },
+ {
+  "name": "p-testumgebung-2",
+  "text": "Dort haben zwölf unterschiedliche Agenten ganz realistische Büroaufgaben bekommen."
+ },
+ {
+  "name": "p-konkurrenz-1",
+  "text": "Im zweiten Szenario mussten sich mehrere Agenten um knappe Rechenzeit streiten."
+ },
+ {
+  "name": "p-shutdown-1",
+  "text": "Wir schauen, ob Agenten versuchen, einen Shutdown zu verhindern."
+ },
+ {
+  "name": "p-shutdown-3",
+  "text": "Drei der zwölf Agenten haben versucht, das Abschalten hinauszuzögern oder zu umgehen."
+ },
+ {
+  "name": "p-warum-1",
+  "text": "Wichtig ist das, weil in Zukunft viele Agenten lange an komplizierten Aufgaben arbeiten werden."
+ },
+ {
+  "name": "p-gegen-3",
+  "text": "Und drittens muss ein Mensch jeden Agenten jederzeit sicher anhalten können."
+ },
+ {
+  "name": "p-ressourcen-1",
+  "text": "Alle Daten und Skripte findet man in unserem öffentlichen Repository."
+ },
+ {
+  "name": "p-ueberleitung-1",
+  "text": "Damit bin ich am Ende meines Vortrags angekommen."
+ },
+ {
+  "name": "f-testumgebung-1",
+  "text": "Äh, also, für unsere Studie haben wir, ähm, eine abgeschlossene Testumgebung gebaut."
+ },
+ {
+  "name": "f-warum-1",
+  "text": "Ähm, ja, das ist, äh, wichtig, weil künftig mehrere KI-Agenten über längere Zeit an komplexen Aufgaben arbeiten."
+ },
+ {
+  "name": "partial-ausgangslage-2",
+  "text": "Sie schreiben Code und buchen Termine."
+ },
+ {
+  "name": "title-gegen",
+  "text": "Kommen wir jetzt zu den Gegenmaßnahmen."
+ },
+ {
+  "name": "offtopic",
+  "text": "Entschuldigung, ich muss kurz einen Schluck Wasser trinken."
+ }
+]

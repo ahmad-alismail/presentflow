@@ -1,0 +1,28 @@
+appId: app.presentflow.desktop
+productName: PresentFlow
+copyright: Copyright © 2026 Ahmad Alismail
+directories:
+  output: release
+  buildResources: build
+files:
+  - out/**
+  - package.json
+asar: true
+win:
+  icon: build/icon.ico
+  target:
+    - nsis
+    - portable
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  artifactName: ${productName}-Setup-${version}.${ext}
+portable:
+  artifactName: ${productName}-Portable-${version}.${ext}
+  # Unpack into a fresh temp folder on every launch. The default is one folder per build that the
+  # launcher wipes on each start, so opening the exe while PresentFlow runs deletes the running
+  # copy's runtime files (its audio service can no longer start: "No microphone").
+  # `true`, not `false`: the docs say false, but NsisTarget.js only skips the fixed folder for true.
+  unpackDirName: true

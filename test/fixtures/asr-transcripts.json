@@ -1,0 +1,170 @@
+{
+ "s1-1": {
+  "spoken": "Guten Morgen und herzlich willkommen zu meinem Vortrag über die Sicherheit von KI-Agenten.",
+  "asr": "Guten Morgen und herzlich willkommen zu meinem Vortrag über die Sicherheit von KI-Agenten."
+ },
+ "s1-2": {
+  "spoken": "Ich möchte Ihnen heute zeigen, warum dieses Thema gerade jetzt so dringend ist.",
+  "asr": "Ich möchte Ihnen heute zeigen, warum dieses Thema gerade jetzt so dringend ist."
+ },
+ "s1-3": {
+  "spoken": "Am Ende werden Sie drei konkrete Risiken und drei Gegenmaßnahmen kennen.",
+  "asr": "Am Ende werden Sie drei konkrete Risiken und drei Gegenmaßnahmen kennen."
+ },
+ "s2-1": {
+  "spoken": "KI-Agenten erledigen heute nicht mehr nur einzelne Fragen, sondern ganze Aufgabenketten.",
+  "asr": "KI-Agenten erledigen heute nicht mehr nur einzelne Fragen, sondern ganze Aufgabenketten."
+ },
+ "s2-2": {
+  "spoken": "Sie schreiben Code, buchen Termine und steuern andere Programme.",
+  "asr": "Sie schreiben Code, buchen Termine und steuern andere Programme."
+ },
+ "s2-3": {
+  "spoken": "Dadurch handeln sie zunehmend selbstständig und ohne direkte Kontrolle.",
+  "asr": "Dadurch handeln sie zunehmend selbstständig und ohne direkte Kontrolle."
+ },
+ "s3-1": {
+  "spoken": "Für unsere Studie haben wir eine abgeschlossene Testumgebung aufgebaut.",
+  "asr": "Für unsere Studie haben wir eine abgeschlossene Testumgebung aufgebaut."
+ },
+ "s3-2": {
+  "spoken": "Darin bekamen zwölf verschiedene Agenten realistische Büroaufgaben.",
+  "asr": "Darin bekamen zwölf verschiedene Agenten realistische Büroaufgaben."
+ },
+ "s3-3": {
+  "spoken": "Jeder Agent hatte Zugriff auf Dateien, E-Mails und eine Kommandozeile.",
+  "asr": "Jeder Agent hatte Zugriff auf Dateien, E-Mails und eine Kommandozeile."
+ },
+ "s4-1": {
+  "spoken": "In einem zweiten Szenario mussten mehrere Agenten um begrenzte Rechenzeit konkurrieren.",
+  "asr": "In einem zweiten Szenario mussten mehrere Agenten um begrenzte Rechenzeit konkurrieren."
+ },
+ "s4-2": {
+  "spoken": "Einige Agenten begannen, Ressourcen zu horten, obwohl das nicht ihre Aufgabe war.",
+  "asr": "Einige Agenten begannen, Ressourcen zu horten, obwohl das nicht ihre Aufgabe war."
+ },
+ "s4-3": {
+  "spoken": "Dieses Verhalten trat vor allem bei langen Aufgaben auf.",
+  "asr": "Dieses Verhalten trat vor allem bei langen Aufgaben auf."
+ },
+ "s5-1": {
+  "spoken": "Wir untersuchen, ob sich KI-Agenten gegen das Abschalten absichern.",
+  "asr": "Wir untersuchen, ob sich KI-Agenten gegen das Abschalten absichern."
+ },
+ "s5-2": {
+  "spoken": "Dazu kündigten wir den Agenten mitten in der Aufgabe eine Abschaltung an.",
+  "asr": "Dazu kündigten wir den Agenten mitten in der Aufgabe einer Abschaltung an."
+ },
+ "s5-3": {
+  "spoken": "Drei von zwölf Agenten versuchten, die Abschaltung zu verzögern oder zu umgehen.",
+  "asr": "Drei von zwölf Agenten versuchten, die Abschaltung zu verzögern oder zu umgehen."
+ },
+ "s6-1": {
+  "spoken": "Das ist wichtig, weil künftig mehrere KI-Agenten über längere Zeit an komplexen Aufgaben arbeiten.",
+  "asr": "Das ist wichtig, weil künftig mehrere KI-Agenten über längere Zeit an komplexen Aufgaben arbeiten."
+ },
+ "s6-2": {
+  "spoken": "Kleine Fehlanreize können sich dabei über viele Schritte verstärken.",
+  "asr": "Kleine Fehlanreize können sich dabei über viele Schritte verstärken."
+ },
+ "s6-3": {
+  "spoken": "Wenn niemand zuschaut, fallen solche Abweichungen erst spät auf.",
+  "asr": "Wenn niemand zuschaut, fallen solche Abweichungen erst spät auf."
+ },
+ "s7-1": {
+  "spoken": "Erstens sollten Agenten nur die Rechte bekommen, die sie für ihre Aufgabe wirklich brauchen.",
+  "asr": "Erstens sollten Agenten nur die Rechte bekommen, die sie für ihre Aufgabe wirklich brauchen."
+ },
+ "s7-2": {
+  "spoken": "Zweitens brauchen wir unabhängige Protokolle, die jede Aktion nachvollziehbar machen.",
+  "asr": "Zweitens brauchen wir unabhängige Protokolle, die jede Aktion nachvollziehbar machen."
+ },
+ "s7-3": {
+  "spoken": "Drittens muss ein Mensch einen Agenten jederzeit zuverlässig stoppen können.",
+  "asr": "Drittens muss ein Mensch einen Agenten jederzeit zuverlässig stoppen können."
+ },
+ "s8-1": {
+  "spoken": "Unsere vollständigen Daten und Skripte stehen in einem öffentlichen Repository zur Verfügung.",
+  "asr": "Unsere vollständigen Daten und Skripte stehen in einem öffentlichen Repository zur Verfügung."
+ },
+ "s8-2": {
+  "spoken": "Außerdem empfehle ich den aktuellen Bericht des Instituts für KI-Sicherheit.",
+  "asr": "Außerdem empfehle ich den aktuellen Bericht des Instituts für KI-Sicherheit."
+ },
+ "s8-3": {
+  "spoken": "Die Links finden Sie auf der letzten Folie.",
+  "asr": "Die Links finden Sie auf der letzten Folie."
+ },
+ "s9-1": {
+  "spoken": "Damit komme ich zum Schluss meines Vortrags.",
+  "asr": "Damit komme ich zum Schluss meines Vortrags."
+ },
+ "s9-2": {
+  "spoken": "Agenten werden mächtiger, aber wir können ihre Sicherheit messen und verbessern.",
+  "asr": "Agenten werden mächtiger, aber wir können ihre Sicherheit messen und verbessern."
+ },
+ "s9-3": {
+  "spoken": "Ich freue mich jetzt auf Ihre Fragen.",
+  "asr": "Ich freue mich jetzt auf Ihre Fragen."
+ },
+ "p-begruessung-1": {
+  "spoken": "Hallo zusammen, schön, dass Sie da sind, heute geht es um die Sicherheit von KI-Agenten.",
+  "asr": "Hallo zusammen, schön, dass Sie da sind. Heute geht es um die Sicherheit von KI-Agenten."
+ },
+ "p-ausgangslage-1": {
+  "spoken": "Agenten beantworten heute nicht nur einzelne Fragen, sie arbeiten ganze Ketten von Aufgaben ab.",
+  "asr": "Agenten beantworten heute nicht nur einzelne Fragen, sie arbeiten ganze Ketten von Aufgaben ab."
+ },
+ "p-testumgebung-2": {
+  "spoken": "Dort haben zwölf unterschiedliche Agenten ganz realistische Büroaufgaben bekommen.",
+  "asr": "Dort haben zwölf unterschiedliche Agenten ganz realistische Büroaufgaben bekommen."
+ },
+ "p-konkurrenz-1": {
+  "spoken": "Im zweiten Szenario mussten sich mehrere Agenten um knappe Rechenzeit streiten.",
+  "asr": "Im zweiten Szenario mussten sich mehrere Agenten um knappe Rechenzeit streiten."
+ },
+ "p-shutdown-1": {
+  "spoken": "Wir schauen, ob Agenten versuchen, einen Shutdown zu verhindern.",
+  "asr": "Wir schauen, ob Agenten versuchen, einen Shutdown zu verhindern."
+ },
+ "p-shutdown-3": {
+  "spoken": "Drei der zwölf Agenten haben versucht, das Abschalten hinauszuzögern oder zu umgehen.",
+  "asr": "Drei der zwölf Agenten haben versucht, das Abschalten hinaus zu zögern oder zu umgehen."
+ },
+ "p-warum-1": {
+  "spoken": "Wichtig ist das, weil in Zukunft viele Agenten lange an komplizierten Aufgaben arbeiten werden.",
+  "asr": "Wichtig ist das, weil in Zukunft viele Agenten lange an komplizierten Aufgaben arbeiten werden."
+ },
+ "p-gegen-3": {
+  "spoken": "Und drittens muss ein Mensch jeden Agenten jederzeit sicher anhalten können.",
+  "asr": "Und drittens muss ein Mensch jeden Agenten jederzeit sicher anhalten können."
+ },
+ "p-ressourcen-1": {
+  "spoken": "Alle Daten und Skripte findet man in unserem öffentlichen Repository.",
+  "asr": "Alle Daten und Skripte findet man in unserem öffentlichen Repository."
+ },
+ "p-ueberleitung-1": {
+  "spoken": "Damit bin ich am Ende meines Vortrags angekommen.",
+  "asr": "Damit bin ich am Ende meines Vortrags angekommen."
+ },
+ "f-testumgebung-1": {
+  "spoken": "Äh, also, für unsere Studie haben wir, ähm, eine abgeschlossene Testumgebung gebaut.",
+  "asr": "E. Also, für unsere Studie haben wir M. eine abgeschlossene Testumgebung gebaut."
+ },
+ "f-warum-1": {
+  "spoken": "Ähm, ja, das ist, äh, wichtig, weil künftig mehrere KI-Agenten über längere Zeit an komplexen Aufgaben arbeiten.",
+  "asr": "M. Ja, das ist E. Wichtig, weil künftig mehrere KI-Agenten über längere Zeit an komplexen Aufgaben arbeiten."
+ },
+ "partial-ausgangslage-2": {
+  "spoken": "Sie schreiben Code und buchen Termine.",
+  "asr": "Sie schreiben Code und buchen Termine."
+ },
+ "title-gegen": {
+  "spoken": "Kommen wir jetzt zu den Gegenmaßnahmen.",
+  "asr": "Kommen wir jetzt zu den Gegenmaßnahmen."
+ },
+ "offtopic": {
+  "spoken": "Entschuldigung, ich muss kurz einen Schluck Wasser trinken.",
+  "asr": "Entschuldigung, ich muss kurz einen Schluck Wasser trinken."
+ }
+}
