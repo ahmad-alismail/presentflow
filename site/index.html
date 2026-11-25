@@ -6,476 +6,156 @@
     <title>PresentFlow · Speak freely, it keeps your place</title>
     <meta
       name="description"
-      content="PresentFlow listens while you present and always shows what to say now, what comes next, and what you haven't covered yet. Free for Windows, speech recognition runs on your PC."
+      content="PresentFlow listens while you present and follows you through your script: what to say now, what comes next, and what you haven't covered yet. Free for Windows; speech recognition runs on your PC."
     />
-    <meta name="theme-color" content="#120f26" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101215" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/png" href="media/icon.png" />
     <link rel="canonical" href="https://ahmad-alismail.github.io/presentflow/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="PresentFlow · Speak freely, it keeps your place" />
     <meta
       property="og:description"
-      content="A presentation companion that follows your voice, shows what to say next and remembers what you skipped. Free, runs on your PC."
+      content="A presentation companion that follows your voice through your script, shows what to say next and remembers what you skipped. Free, runs on your PC."
     />
     <meta property="og:url" content="https://ahmad-alismail.github.io/presentflow/" />
     <meta property="og:image" content="https://ahmad-alismail.github.io/presentflow/media/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preload" href="assets/fonts/bricolage-grotesque-wght.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/atkinson-hyperlegible-700.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="assets/fonts/atkinson-hyperlegible-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="assets/site.css" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <header class="site-header" id="top">
+    <header class="site-header">
       <div class="wrap">
-        <a class="logo" href="#main" aria-label="PresentFlow, back to top"><img src="media/icon.png" alt="" width="30" height="30" /><span>Present<em>Flow</em></span></a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-        <nav class="site-nav" id="site-nav" aria-label="Main">
-          <a href="#demo">Demo</a>
-          <a href="#features">Features</a>
-          <a href="#powerpoint">PowerPoint</a>
-          <a href="#privacy">Privacy</a>
-          <a href="#download">Download</a>
-          <a href="#faq">FAQ</a>
-        </nav>
-        <div class="header-cta">
-          <a class="btn btn-ghost btn-sm" href="https://github.com/ahmad-alismail/presentflow">
-            <svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-            GitHub
-          </a>
+        <a class="logo" href="./"><img src="media/icon.png" alt="" width="28" height="28" />PresentFlow</a>
+        <div class="header-links">
+          <a href="https://github.com/ahmad-alismail/presentflow">GitHub</a>
+          <a class="btn btn-primary btn-sm" href="https://github.com/ahmad-alismail/presentflow/releases/latest">Download</a>
         </div>
       </div>
     </header>
 
     <main id="main">
-      <!-- Hero -->
-      <section class="hero">
-        <div class="wrap hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">Presentation companion for Windows</p>
-            <h1>Speak freely. PresentFlow keeps your place.</h1>
-            <p class="lead">
-              PresentFlow listens while you present. It always shows what to say now, what comes next, and what you
-              haven't covered yet. You lead, it follows.
-            </p>
-            <div class="cta-row">
-              <a class="btn btn-primary" href="https://github.com/ahmad-alismail/presentflow/releases/latest">
-                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
-                Download for Windows
-              </a>
-              <a class="btn btn-ghost" href="#demo">See it work</a>
-            </div>
-            <ul class="facts">
-              <li>Speech recognition on your PC</li>
-              <li>Free and open source</li>
-              <li>German &amp; English</li>
-              <li>Works with PowerPoint</li>
-            </ul>
-          </div>
-          <div class="lyrics" aria-label="Example: the current sentence is highlighted, the ones you said fade above it">
-            <div class="lyrics-label"><span class="live-dot" aria-hidden="true"></span>Listening</div>
-            <div class="lyrics-lines" data-lyrics>
-              <p class="past">Good morning, and welcome to my talk on the safety of AI agents.</p>
-              <p class="past">Today I want to show you why this topic is so urgent right now.</p>
-              <p class="now">By the end you will know <b>three</b> <b>concrete</b> <b>risks</b> and three <b>countermeasures</b>.</p>
-              <p>AI agents no longer answer single questions, they run whole chains of tasks.</p>
-            </div>
-          </div>
+      <section class="hero wrap">
+        <p class="overline">Free and open source · Windows</p>
+        <h1><span>Speak freely.</span> <span>PresentFlow keeps your place.</span></h1>
+        <p class="lead">
+          PresentFlow listens while you present and follows you through your script: what to say now, what comes next,
+          and what you haven't covered yet.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/ahmad-alismail/presentflow/releases/latest">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14" /></svg>
+            Download for Windows
+          </a>
+          <a class="link-arrow" href="#demo">Watch it follow ↓</a>
         </div>
       </section>
 
-      <div class="wrap proof">
-        <img
-          class="shot"
-          src="media/screen-rehearsal.png"
-          width="1200"
-          height="720"
-          alt="PresentFlow in dark mode: the current sentence in large type, the sentences already said above it, and the talking points with memory cues on the right."
-        />
-        <div class="proof-copy">
-          <h3>Reads like song lyrics</h3>
-          <p>
-            The sentence you just finished stays above the highlighted one, so nothing vanishes while you are still
-            talking. On the right: every talking point of the section, ticked off as you go, and the slide list below.
-          </p>
-          <p>The window stays on top of your slideshow, so you can keep it beside your slides or on a second screen.</p>
-        </div>
-      </div>
-
-      <!-- Demo -->
-      <section class="section band" id="demo">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="eyebrow">Live demo</p>
-            <h2>Watch it follow a talk</h2>
-            <p>A replay of a short talk, running right here in your browser. Press play, or step through it yourself.</p>
+      <div class="wrap">
+        <section class="demo" id="demo" data-demo data-beat="0" data-phase="settled" data-playing="false" aria-labelledby="demo-title">
+          <h2 class="sr-only" id="demo-title">Demo: a speaker talks, PresentFlow follows</h2>
+          <div class="demo-controls">
+            <button class="play" type="button" data-play aria-label="Play demo">
+              <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M4.5 2.8v10.4L13 8z" /></svg>
+              <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" /></svg>
+            </button>
+            <div class="beats" role="group" aria-label="Demo steps" data-beats></div>
           </div>
-
-          <div class="demo" data-demo>
-            <div class="demo-app" aria-label="Simulated PresentFlow window">
-              <div class="demo-bar">
-                <span class="demo-status on" data-status><i aria-hidden="true"></i><span data-status-text>Listening</span></span>
-                <span class="demo-where" data-where>Slide 1 — Opening · <b>Welcome</b></span>
-                <span class="demo-chip" data-chip hidden>
-                  <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/><path d="M8 11.5v2.5M5 14h6"/></svg>
-                  <span data-chip-text>Slide 2</span>
-                </span>
+          <p class="caption" data-caption></p>
+          <div class="demo-frame">
+            <div class="speaker">
+              <div class="speaker-head" aria-hidden="true">
+                <span class="mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" /></svg></span>
+                <span class="wave" data-wave></span>
               </div>
-              <div class="demo-body">
-                <div class="demo-stage" data-stage aria-live="polite">
-                  <p class="d-line cur">Good <b>morning</b>, and <b>welcome</b> to my talk on the <b>safety</b> of <b>AI</b> agents.</p>
-                  <p class="d-line next">Today I want to show you why this topic is so urgent right now.</p>
-                </div>
-                <div class="demo-side">
-                  <div class="d-points" data-points><h4>Welcome</h4></div>
-                  <div class="d-slides" data-slides><h4>Slides</h4></div>
+              <p class="speaker-name">The speaker says</p>
+              <p class="speech" data-said></p>
+            </div>
+
+            <div class="link" aria-hidden="true">
+              <span class="wire"></span>
+            </div>
+
+            <div class="app" role="group" aria-label="PresentFlow window">
+              <div class="app-bar">
+                <span class="status"><span class="dot"></span>Listening</span>
+                <span class="where" data-where></span>
+              </div>
+              <div class="app-body">
+                <div class="stage" data-stage></div>
+                <div class="nav">
+                  <div class="points" data-points></div>
+                  <div class="slides" data-slides></div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="demo-ticker">
-              <span class="k">Heard</span>
-              <span class="demo-heard" data-heard></span>
-            </div>
+          <p class="demo-note">Simulated replay of a short talk. The real app follows your voice.</p>
+          <p class="sr-only" aria-live="polite" data-announce></p>
+        </section>
 
-            <div class="demo-foot">
-              <p class="demo-caption" data-caption>Press play. PresentFlow is waiting for the first sentence.</p>
-              <div class="demo-controls">
-                <button class="btn btn-primary btn-sm" type="button" data-play>Play</button>
-                <button class="btn btn-ghost btn-sm" type="button" data-next>Next step</button>
-                <button class="btn btn-ghost btn-sm" type="button" data-restart>Restart</button>
-              </div>
-            </div>
-            <ol class="demo-scenes" data-scenes aria-label="Scenes">
-              <li>Follows along</li>
-              <li>Paraphrasing</li>
-              <li>A skipped sentence</li>
-              <li>A jump</li>
-              <li>PowerPoint holds the slide</li>
-            </ol>
-            <p class="demo-note">
-              Simulation with a made-up talk. No microphone and no speech recognition run on this page; the real app
-              works with your voice.
-            </p>
+        <section class="facts" aria-label="Highlights">
+          <div>
+            <h2>Runs on your PC</h2>
+            <p>Speech recognition runs locally, on your graphics card or, without one that supports WebGPU, on the CPU. It works offline after a one-time download. Cloud services only if you opt in.</p>
           </div>
-        </div>
-      </section>
+          <div>
+            <h2>Works with PowerPoint</h2>
+            <p>The slide on screen decides what you see. Import a .pptx and its speaker notes become your script.</p>
+          </div>
+          <div>
+            <h2>Memory cues from your words</h2>
+            <p>Press R for a cue like “three → concrete → risks → countermeasures”. Cues use only words from your script, never invented content.</p>
+          </div>
+        </section>
 
-      <!-- Features -->
-      <section class="section" id="features">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="eyebrow">Features</p>
-            <h2>Built for the moment you lose your thread</h2>
-            <p>
-              A teleprompter scrolls at its own pace. PresentFlow waits for you, follows your jumps and keeps track of
-              what you still owe your audience.
-            </p>
-          </div>
-          <div class="features">
-            <div class="feature">
-              <h3>Follows your voice</h3>
-              <p>Jump to another section and the view follows after a sentence or two. You never scroll.</p>
-            </div>
-            <div class="feature">
-              <h3>Remembers what's left</h3>
-              <p>Skipped content stays in its section with an amber dot. It is never forced back on screen.</p>
-            </div>
-            <div class="feature">
-              <h3>Memory cues from your own words</h3>
-              <p>
-                Press <code>R</code> for a cue like <em>three → risks → countermeasures</em>, press again for the full
-                sentence. Cues only use words from your script.
-              </p>
-            </div>
-            <div class="feature">
-              <h3>Paraphrasing is fine</h3>
-              <p>
-                Fuzzy word matching plus meaning-based matching, in German and English. Names, numbers and technical
-                terms help most.
-              </p>
-            </div>
-            <div class="feature">
-              <h3>Calm by design</h3>
-              <p>
-                Silence changes nothing. An "um" or a short aside changes nothing. Focus Lock freezes the display while
-                tracking continues.
-              </p>
-            </div>
-            <div class="feature">
-              <h3>Stays out of the way</h3>
-              <p>
-                The window floats above a full-screen slideshow. Global shortcuts such as <code>Ctrl+Alt+R</code> work
-                while PowerPoint has focus.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Gallery -->
-      <section class="section band" id="screenshots" aria-labelledby="shots-title">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="eyebrow">Screenshots</p>
-            <h2 id="shots-title">From script to talk</h2>
-          </div>
-          <div class="gallery">
-            <figure>
-              <img class="shot" src="media/screen-editor.png" width="1200" height="720" loading="lazy" alt="The editor: the script on the left, the outline with a memory cue under every sentence on the right." />
-              <figcaption><b>Write or import your script.</b> Every sentence gets a memory cue made from its own words.</figcaption>
-            </figure>
-            <figure>
-              <img class="shot" src="media/screen-jump.png" width="1200" height="720" loading="lazy" alt="After a jump to slide 3, the view continues there and slide 1 shows as partly done." />
-              <figcaption><b>Jump ahead.</b> The view follows you to slide 3; what you left open stays marked.</figcaption>
-            </figure>
-            <figure>
-              <img class="shot" src="media/screen-settings.png" width="1200" height="720" loading="lazy" alt="Speech recognition settings: Local, OpenAI Realtime or Google Gemini Live, and the local model choice." />
-              <figcaption><b>Choose how it listens.</b> Local recognition by default, cloud services only if you opt in.</figcaption>
-            </figure>
-            <figure>
-              <img class="shot" src="media/screen-summary.png" width="1200" height="720" loading="lazy" alt="The summary after a talk: each section with what was said and what is still open." />
-              <figcaption><b>After the talk.</b> The summary shows what you said and what you skipped.</figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <!-- PowerPoint -->
-      <section class="section" id="powerpoint">
-        <div class="wrap split">
-          <div class="prose">
-            <p class="eyebrow">PowerPoint sync</p>
-            <h2>The slide on screen decides</h2>
-            <p>
-              With PowerPoint open, in the slideshow or the normal editing view, PresentFlow follows the slide you are
-              on. Change the slide and it moves to that slide's first open section. Within a slide, it follows your
-              speech as usual.
-            </p>
-            <div class="modes">
-              <div class="mode">
-                <span class="tag">Default</span>
-                <h3>Next slide: Manual</h3>
-                <p class="muted">
-                  PresentFlow stays on the slide until you click on. After the last sentence it shows "End of slide ·
-                  Next: …". Nothing from the next slide appears early.
-                </p>
-              </div>
-              <div class="mode">
-                <span class="tag">Option</span>
-                <h3>Next slide: Automatic</h3>
-                <p class="muted">PresentFlow moves to the next slide as soon as you start speaking it. Clicking a slide still jumps there.</p>
-              </div>
-            </div>
-            <ul>
-              <li><strong>Import from PowerPoint:</strong> every visible slide becomes a heading, its speaker notes become your script. PowerPoint does not need to be installed for this.</li>
-              <li>Slides are matched by the number in the heading (<code>Slide 6 — …</code>), otherwise by title.</li>
-              <li>No add-in. A small background process reads the current slide through PowerPoint's automation interface.</li>
-            </ul>
-          </div>
-          <img class="shot" src="media/screen-slide-end.png" width="1200" height="720" loading="lazy" alt="The last sentence of slide 1 is highlighted, followed by the note: End of slide, next: Slide 2, Experiments." />
-        </div>
-      </section>
-
-      <!-- Privacy -->
-      <section class="section band" id="privacy">
-        <div class="wrap split">
-          <div class="prose">
-            <p class="eyebrow">Privacy</p>
-            <h2>Your voice stays on your PC</h2>
-            <p>
-              By default, speech recognition runs on your own graphics card with Whisper. After a one-time download of
-              the speech model it works offline. Your scripts are saved locally.
-            </p>
-            <ul>
-              <li>Cloud services are optional and need your own API key and an explicit one-time consent.</li>
-              <li>With a cloud service, only speech is sent (no silence), plus up to 100 technical terms from your script to improve recognition.</li>
-              <li>API keys are encrypted with Windows DPAPI.</li>
-              <li>If a cloud service keeps failing, PresentFlow switches to local recognition.</li>
-            </ul>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr><th scope="col">Speech service</th><th scope="col">Where audio goes</th><th scope="col">Notes</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Local (default)</td><td>Stays on this computer</td><td>Whisper large-v3-turbo on the GPU (about 760 MB, downloaded once). A faster small model for weaker GPUs, and a CPU fallback.</td></tr>
-                <tr><td>OpenAI Realtime</td><td>OpenAI</td><td>True streaming. Needs your API key.</td></tr>
-                <tr><td>Google Gemini Live</td><td>Google</td><td>A dedicated transcription model. Needs your API key.</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- Script -->
-      <section class="section" id="script">
-        <div class="wrap split">
-          <div class="prose">
-            <p class="eyebrow">Your script</p>
-            <h2>Write it the way you say it</h2>
-            <p>Paste or import a Markdown or text file. Two heading levels give your talk its shape:</p>
-            <ul>
-              <li><code>#</code> starts a slide. Its number links it to the PowerPoint slide.</li>
-              <li><code>##</code> starts a section, a group of 3 to 6 sentences.</li>
-              <li>Full sentences, one idea each, ideally under 25 words. Easy to take in at a glance and easier to recognize.</li>
-              <li>PresentFlow never invents content. You can edit any memory cue in the editor.</li>
-            </ul>
-          </div>
-          <pre class="code" aria-label="Example script"><span class="h1"># Slide 2 — Experiments</span>         <span class="c">← slide 2 in PowerPoint</span>
-
-<span class="h2">## Test environment</span>              <span class="c">← a section</span>
-For our study we built a closed test environment.
-Twelve different agents received realistic office tasks.
-
-<span class="h2">## Competition</span>
-- Bullet points become single points
-</pre>
-        </div>
-      </section>
-
-      <!-- Shortcuts -->
-      <section class="section band" id="shortcuts" aria-labelledby="keys-title">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="eyebrow">Shortcuts</p>
-            <h2 id="keys-title">Hands on the clicker, help one key away</h2>
-            <p>Global shortcuts work while PowerPoint is in front. In-window keys avoid the arrows, Page Up/Down, B and the full stop, because presenter clickers send those.</p>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr><th scope="col">Action</th><th scope="col">Global (works inside PowerPoint)</th><th scope="col">In the window</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Memory cue (press twice: full sentence)</td><td><kbd>Ctrl+Alt+R</kbd></td><td><kbd>R</kbd>, <kbd>Esc</kbd> closes</td></tr>
-                <tr><td>Mark current sentence as said</td><td><kbd>Ctrl+Alt+N</kbd></td><td><kbd>N</kbd></td></tr>
-                <tr><td>Undo last step</td><td><kbd>Ctrl+Alt+B</kbd></td><td><kbd>U</kbd></td></tr>
-                <tr><td>Lock or unlock the display (Focus Lock)</td><td><kbd>Ctrl+Alt+F</kbd></td><td><kbd>F</kbd></td></tr>
-                <tr><td>Pause or resume</td><td><kbd>Ctrl+Alt+P</kbd></td><td><kbd>P</kbd></td></tr>
-                <tr><td>Back to the previous section</td><td><kbd>Ctrl+Alt+Z</kbd></td><td><kbd>Z</kbd></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- Download -->
-      <section class="section" id="download">
-        <div class="wrap">
-          <div class="download">
-            <div class="section-head" style="margin-bottom: 0">
-              <p class="eyebrow">Download</p>
-              <h2>Get PresentFlow for Windows</h2>
-              <p>Free and open source under the Apache 2.0 license. Both versions are on the GitHub releases page.</p>
-            </div>
-            <div class="dl-options">
-              <div class="dl-option">
-                <h3>Installer</h3>
-                <p>Installs PresentFlow for your user account and adds a desktop shortcut. Recommended.</p>
-                <code>PresentFlow-Setup-1.0.0.exe</code>
-              </div>
-              <div class="dl-option">
-                <h3>Portable</h3>
-                <p>A single file that runs without installing, for example from a USB stick.</p>
-                <code>PresentFlow-Portable-1.0.0.exe</code>
-              </div>
-            </div>
-            <div class="cta-row">
-              <a class="btn btn-primary" href="https://github.com/ahmad-alismail/presentflow/releases/latest">
-                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
-                Download the latest release
-              </a>
-              <a class="btn btn-ghost" href="https://github.com/ahmad-alismail/presentflow">View the source</a>
-            </div>
-            <div class="dl-cols">
-              <div>
-                <h3>You need</h3>
-                <ul>
-                  <li>Windows 10 or 11, 64-bit</li>
-                  <li>A microphone</li>
-                  <li>A graphics card with WebGPU for the best model; without one, a smaller model runs on the CPU</li>
-                  <li>Internet once, to download the speech model (about 760 MB)</li>
-                </ul>
-              </div>
-              <div>
-                <h3>First start</h3>
-                <ol>
-                  <li>Windows may show "Windows protected your PC", because the app is not code-signed. Click <strong>More info</strong>, then <strong>Run anyway</strong>.</li>
-                  <li>Paste or import your script, or open the German example talk.</li>
-                  <li>Press <strong>Rehearse</strong>, then <strong>Start</strong>, and speak.</li>
-                </ol>
-              </div>
-              <div>
-                <h3>Build from source</h3>
-                <pre class="code">git clone https://github.com/ahmad-alismail/presentflow
-cd presentflow
-npm install
-npm run dev</pre>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- FAQ -->
-      <section class="section band" id="faq">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="eyebrow">FAQ</p>
-            <h2>Questions and answers</h2>
-          </div>
-          <div class="faq">
-            <details>
-              <summary>Can I use it during a real talk, or only for rehearsals?</summary>
-              <div><p>Both. The window stays on top of a full-screen slideshow, and the global shortcuts work while PowerPoint is in front. Run through your talk once at home first, so you know how it reacts to your voice.</p></div>
-            </details>
-            <details>
-              <summary>Windows says "Windows protected your PC"</summary>
-              <div><p>The installer is not code-signed, so SmartScreen warns on first launch. Click <strong>More info</strong>, then <strong>Run anyway</strong>.</p></div>
-            </details>
-            <details>
-              <summary>Microsoft Defender flags a file called ffmpeg.dll</summary>
-              <div><p>This is a known false positive for Electron's official ffmpeg.dll (Defender definitions 1.463.144.0). Version 1.463.153.0 and newer no longer flag it. Update Defender's security intelligence and try again.</p></div>
-            </details>
+        <section class="faq" aria-labelledby="faq-title">
+          <h2 id="faq-title">Questions</h2>
+          <div>
             <details>
               <summary>Does it work offline?</summary>
-              <div><p>Yes, with local speech recognition (the default). The first start downloads the speech model once; after that, no internet connection is needed.</p></div>
-            </details>
-            <details>
-              <summary>Which languages does it understand?</summary>
-              <div><p>German and English, both for speech recognition and for the interface. Choose the speaking language per presentation in the editor.</p></div>
-            </details>
-            <details>
-              <summary>Do I need PowerPoint?</summary>
-              <div><p>No. PresentFlow works with any slides, or none. PowerPoint sync is an extra, and importing a .pptx file works without PowerPoint installed.</p></div>
-            </details>
-            <details>
-              <summary>Is there a Mac or Linux version?</summary>
-              <div><p>Not at the moment. PresentFlow is built and tested for Windows; PowerPoint sync and the key storage use Windows features.</p></div>
+              <p>Yes, with local speech recognition (the default). The first start downloads the speech model once; after that, no internet connection is needed.</p>
             </details>
             <details>
               <summary>What leaves my computer?</summary>
-              <div><p>With local recognition, nothing. With a cloud service, only speech segments and up to 100 technical terms from your script go to that service. Your script itself stays on your PC.</p></div>
+              <p>With local recognition, nothing. Cloud services (OpenAI Realtime, Google Gemini Live) are optional, need your own API key and your consent, and receive only speech plus up to 100 technical terms from your script.</p>
             </details>
             <details>
-              <summary>Are the cloud services well tested?</summary>
-              <div><p>They were tested against mock servers that replay the documented protocols, not yet against the live services. Local recognition is the tested default.</p></div>
+              <summary>Which languages does it understand?</summary>
+              <p>German and English. Paraphrasing works in both: PresentFlow matches words and meaning, not only the exact sentence.</p>
+            </details>
+            <details>
+              <summary>Do I need PowerPoint?</summary>
+              <p>No. Write or paste your script as text or Markdown, or import a .pptx file (that works without PowerPoint installed). Only the live slide sync needs PowerPoint running.</p>
+            </details>
+            <details>
+              <summary>Is there a Mac or Linux version?</summary>
+              <p>Not at the moment. PowerPoint sync and the secure key storage use Windows features.</p>
             </details>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
-      <section class="final">
+      <section class="close">
         <div class="wrap">
-          <h2>Your next talk, without the blank moment</h2>
-          <p>Download PresentFlow, paste in your script, and say the first sentence.</p>
+          <h2>Your next talk, without the blank moment.</h2>
           <div class="cta-row">
-            <a class="btn btn-primary" href="https://github.com/ahmad-alismail/presentflow/releases/latest">Download for Windows</a>
-            <a class="btn btn-ghost" href="#demo">Watch the demo again</a>
+            <a class="btn btn-primary" href="https://github.com/ahmad-alismail/presentflow/releases/latest">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14" /></svg>
+              Download for Windows
+            </a>
           </div>
+          <p class="fineprint">
+            Windows 10 or 11 (64-bit), a microphone, and ideally a graphics card with WebGPU. The speech model (about
+            760 MB) downloads on first start. The app
+            is not code-signed yet, so Windows SmartScreen asks once: choose More info, then Run anyway.
+          </p>
         </div>
       </section>
     </main>
@@ -483,11 +163,14 @@ npm run dev</pre>
     <footer class="site-footer">
       <div class="wrap">
         <span>PresentFlow · Apache License 2.0 · Made by Ahmad Alismail</span>
-        <span><a href="https://github.com/ahmad-alismail/presentflow">Source on GitHub</a> · <a href="https://github.com/ahmad-alismail/presentflow/issues">Report a problem</a></span>
+        <nav aria-label="Project">
+          <a href="https://github.com/ahmad-alismail/presentflow#readme">Docs</a>
+          <a href="https://github.com/ahmad-alismail/presentflow">Source</a>
+          <a href="https://github.com/ahmad-alismail/presentflow/issues">Report a problem</a>
+        </nav>
       </div>
     </footer>
 
-    <script src="assets/site.js" defer></script>
     <script src="assets/demo.js" defer></script>
   </body>
 </html>

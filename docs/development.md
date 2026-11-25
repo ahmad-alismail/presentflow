@@ -18,7 +18,7 @@ npm run dist       # Windows installer + portable exe in release/
 | `PF_OFFLINE=1 npx playwright test e2e/audio.spec.ts` | Real-audio test with all network blocked |
 | `PF_EXE=release/win-unpacked/PresentFlow.exe npm run e2e` | Same E2E suites against the packaged build (driven over CDP) |
 | `PF_PPT_LIVE=1 npx playwright test e2e/powerpoint.live.spec.ts` | Live PowerPoint sync test: opens PowerPoint with a temporary deck, closes it without saving |
-| `PF_SITE_SHOTS=1 npx playwright test e2e/site-screens.spec.ts` | Regenerates the website screenshots in `site/media/` (dark theme, English UI) |
+| `PF_SITE_SHOTS=1 npx playwright test e2e/site-screens.spec.ts` | Regenerates the README screenshot `site/media/screen-rehearsal.png` (dark theme, English UI) |
 | `npm run calibrate` | Prints semantic similarity distributions for threshold tuning |
 
 ## Test audio

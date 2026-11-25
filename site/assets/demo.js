@@ -1,93 +1,155 @@
-// PresentFlow website: a scripted replay of a talk. No microphone, no speech recognition: each step is a
-// snapshot of what the real app shows after hearing that text. Memory cues were generated with the app's
-// own cue extractor (src/core/text/cues.ts) for this script.
+// PresentFlow website demo: a speaker talks (left), the PresentFlow window follows (right).
+// A scripted replay: no microphone and no speech recognition run on this page. Every window state below is what
+// the app's real Tracker (src/core/tracking/tracker.ts, semantic mode) produced when these exact phrases were
+// replayed against the full talk, and the memory cues come from the app's extractKeywords (src/core/text/cues.ts).
+// The window is drawn like the app's Stage and Navigator components.
 ;(function () {
   'use strict'
   var root = document.querySelector('[data-demo]')
   if (!root) return
 
-  var LINES = {
-    w1: { s: 'welcome', text: 'Good morning, and welcome to my talk on the safety of AI agents.', cue: ['morning', 'welcome', 'safety', 'AI'] },
-    w2: { s: 'welcome', text: 'Today I want to show you why this topic is so urgent right now.', cue: ['Today', 'want', 'topic', 'urgent'] },
-    w3: { s: 'welcome', text: 'By the end you will know three concrete risks and three countermeasures.', cue: ['three', 'concrete', 'risks', 'countermeasures'] },
-    s1: { s: 'stand', text: 'AI agents no longer answer single questions, they run whole chains of tasks.', cue: ['answer', 'single', 'whole', 'chains'] },
-    s2: { s: 'stand', text: 'They write code, book appointments and control other programs.', cue: ['write', 'appointments', 'control', 'programs'] },
-    t1: { s: 'test', text: 'For our study we built a closed test environment.', cue: ['study', 'built', 'closed', 'environment'] },
-    t2: { s: 'test', text: 'Twelve different agents received realistic office tasks.', cue: ['Twelve', 'different', 'received', 'realistic'] },
-    t3: { s: 'test', text: 'Each agent had access to files, email and a command line.', cue: ['access', 'files', 'email', 'command'] },
-    m1: { s: 'why', text: 'This matters because many AI agents will soon work on complex tasks for long periods.', cue: ['matters', 'AI', 'complex', 'periods'] },
-    m2: { s: 'why', text: 'Small wrong incentives can grow over many steps.', cue: ['Small', 'wrong', 'incentives', 'steps'] },
-    m3: { s: 'why', text: 'When nobody is watching, such deviations show up late.', cue: ['nobody', 'watching', 'such', 'deviations'] },
-    k1: { s: 'counter', text: 'First, agents should only get the permissions their task really needs.', cue: ['First', 'get', 'permissions', 'really'] }
-  }
-  var SECTIONS = {
-    welcome: { title: 'Welcome', slide: 1, lines: ['w1', 'w2', 'w3'] },
-    stand: { title: 'Where we stand', slide: 1, lines: ['s1', 's2'] },
-    test: { title: 'Test environment', slide: 2, lines: ['t1', 't2', 't3'] },
-    why: { title: 'Why this matters', slide: 3, lines: ['m1', 'm2', 'm3'] },
-    counter: { title: 'Countermeasures', slide: 3, lines: ['k1'] },
-    wrap: { title: 'Wrap-up', slide: 4, lines: [] }
-  }
+  // ── The talk ─────────────────────────────────────────────
   var SLIDES = [
-    { n: 1, title: 'Slide 1 — Opening', sections: ['welcome', 'stand'] },
-    { n: 2, title: 'Slide 2 — Experiments', sections: ['test'] },
-    { n: 3, title: 'Slide 3 — Why it matters', sections: ['why', 'counter'] },
-    { n: 4, title: 'Slide 4 — Closing', sections: ['wrap'] }
+    { title: 'Slide 1 — Opening', sections: ['welcome', 'stand'] },
+    { title: 'Slide 2 — Experiments', sections: ['test', 'compete'] },
+    { title: 'Slide 3 — Why it matters', sections: ['why', 'counter'] },
+    { title: 'Slide 4 — Closing', sections: ['wrap'] }
+  ]
+  var SECTIONS = {
+    welcome: 'Welcome',
+    stand: 'Where we stand',
+    test: 'Test environment',
+    compete: 'Competition',
+    why: 'Why this matters',
+    counter: 'Countermeasures',
+    wrap: 'Wrap-up'
+  }
+  // [id, section, sentence, memory cue]
+  var TALK = [
+    ['w1', 'welcome', 'Good morning, and welcome to my talk on the safety of AI agents.', 'Good morning welcome AI'],
+    ['w2', 'welcome', 'Today I want to show you why this topic is so urgent right now.', 'Today want topic urgent'],
+    ['w3', 'welcome', 'By the end you will know three concrete risks and three countermeasures.', 'three concrete risks countermeasures'],
+    ['s1', 'stand', 'AI agents no longer answer single questions, they run whole chains of tasks.', 'answer single whole chains'],
+    ['s2', 'stand', 'They write code, book appointments and control other programs.', 'write appointments control programs'],
+    ['s3', 'stand', 'So they act more and more on their own, without direct oversight.', 'act without direct oversight'],
+    ['t1', 'test', 'For our study we built a closed test environment.', 'study built closed environment'],
+    ['t2', 'test', 'Twelve different agents received realistic office tasks.', 'Twelve different received realistic'],
+    ['t3', 'test', 'Each agent had access to files, email and a command line.', 'access files email command'],
+    ['c1', 'compete', 'In a second scenario, several agents had to compete for limited computing time.', 'scenario several compete computing'],
+    ['c2', 'compete', 'Some agents started hoarding resources even though that was not their task.', 'started hoarding resources though'],
+    ['m1', 'why', 'This matters because many AI agents will soon work on complex tasks for long periods.', 'matters AI complex periods'],
+    ['m2', 'why', 'Small wrong incentives can grow over many steps.', 'Small wrong incentives steps'],
+    ['m3', 'why', 'When nobody is watching, such deviations show up late.', 'nobody watching such deviations'],
+    ['k1', 'counter', 'First, agents should only get the permissions their task really needs.', 'First get permissions really'],
+    ['k2', 'counter', 'Second, we need independent logs that make every action traceable.', 'independent every action traceable'],
+    ['k3', 'counter', 'Third, a human must be able to stop an agent reliably at any time.', 'Third human able reliably'],
+    ['e1', 'wrap', 'That brings me to the end of my talk.', 'brings end talk'],
+    ['e2', 'wrap', 'Agents are getting more powerful, but we can measure and improve their safety.', 'getting powerful measure improve'],
+    ['e3', 'wrap', 'I look forward to your questions.', 'look forward questions']
+  ]
+  var LINE = {}
+  TALK.forEach(function (r, i) {
+    LINE[r[0]] = { id: r[0], sec: r[1], text: r[2], cue: r[3].split(' '), at: i }
+  })
+
+  // Tracker output after each phrase: said = covered, skipped = passed over without being said.
+  var STATES = {
+    start: { active: 'welcome', current: 'w1', upcoming: ['w2', 'w3'], said: [], skipped: [] },
+    follow: { active: 'welcome', current: 'w2', upcoming: ['w3', 's1'], said: ['w1'], skipped: [] },
+    skip: { active: 'welcome', current: 's1', upcoming: ['s2', 's3'], said: ['w1', 'w3'], skipped: ['w2'] },
+    paraphrase: { active: 'stand', current: 's2', upcoming: ['s3', 't1'], said: ['w1', 'w3', 's1'], skipped: ['w2'] },
+    jump: { active: 'why', current: 'm3', upcoming: ['k1', 'k2'], said: ['w1', 'w3', 's1', 'm1', 'm2'], skipped: ['w2'] }
+  }
+
+  var SHARED = ['ai', 'agents', 'answer', 'question', 'questions', 'whole', 'chains', 'tasks']
+  // Each step: what the speaker says, the window state that follows, the line(s) it matched, and two captions:
+  // the setup while the speaker talks and the result once PresentFlow has answered.
+  var BEATS = [
+    {
+      title: 'Follows along',
+      steps: [
+        {
+          say: LINE.w1.text,
+          state: 'follow',
+          matched: ['w1'],
+          marks: [['w1']],
+          setup: 'The speaker starts with the first sentence.',
+          result: 'Matched. It moves up, and the next sentence is ready.'
+        }
+      ]
+    },
+    {
+      title: 'Skips a sentence',
+      steps: [
+        {
+          say: LINE.w3.text,
+          state: 'skip',
+          matched: ['w3'],
+          marks: [['w3'], ['w2', 'warn']],
+          tone: 'warn',
+          setup: 'The speaker leaves out “Today I want to show you…” and goes on.',
+          result: 'PresentFlow follows. The left-out sentence is marked amber and kept for later.'
+        }
+      ]
+    },
+    {
+      title: 'Paraphrases',
+      steps: [
+        {
+          say: "AI agents don't just answer one question anymore, they handle whole chains of tasks.",
+          shared: SHARED,
+          state: 'paraphrase',
+          matched: ['s1'],
+          marks: [['s1']],
+          setup: 'The speaker says the next sentence in their own words.',
+          result: 'Different words, same sentence: it still matches.'
+        }
+      ]
+    },
+    {
+      title: 'Jumps ahead',
+      steps: [
+        {
+          say: LINE.m1.text,
+          state: 'paraphrase',
+          hold: 2800,
+          tone: 'wait',
+          setup: 'The speaker jumps ahead to a sentence from slide 3.',
+          result: 'Not on screen. PresentFlow waits for one more sentence before it moves.'
+        },
+        {
+          say: LINE.m2.text,
+          state: 'jump',
+          marks: [['m1'], ['m2']],
+          setup: 'The speaker keeps going on slide 3.',
+          result: 'Two sentences from slide 3: PresentFlow jumps there.'
+        }
+      ]
+    }
   ]
 
-  var END = 'note:End of slide · Next: Slide 3 — Why it matters'
-  // Each snapshot was checked against the real app by replaying this script with e2e/app.ts hear().
-  var STEPS = [
-    { scene: 0, heard: '', where: 'welcome', said: [], view: ['cur:w1', 'next:w2'],
-      caption: 'Press play. PresentFlow is waiting for the first sentence.' },
-    { scene: 0, heard: LINES.w1.text, where: 'welcome', said: ['w1'], view: ['prev:w1', 'cur:w2', 'next:w3'],
-      caption: 'It follows along. The sentence you finished moves up and fades; the next one is right below.' },
-    { scene: 1, heard: "Today I'd like to show you why this matters so much right now.", where: 'welcome', said: ['w1', 'w2'],
-      view: ['older:w1', 'prev:w2', 'cur:w3', 'next:s1'],
-      caption: 'Paraphrasing is fine. PresentFlow matches the meaning, not only the exact words.' },
-    { scene: 2, heard: LINES.s1.text, where: 'stand', said: ['w1', 'w2', 's1'],
-      view: ['older:w2', 'older:w3', 'prev:s1', 'cur:s2', 'next:t1'],
-      caption: 'You skipped a sentence and moved on. The view follows you; “Welcome” stays half done in the slide list until you get back to it.' },
-    { scene: 3, heard: LINES.m1.text, where: 'stand', said: ['w1', 'w2', 's1'],
-      view: ['older:w2', 'older:w3', 'prev:s1', 'cur:s2', 'next:t1'],
-      caption: 'Now you jump ahead to slide 3. One sentence is not enough: PresentFlow waits for confirmation, so a stray remark never moves the view.' },
-    { scene: 3, heard: LINES.m2.text, where: 'why', said: ['w1', 'w2', 's1', 'm1', 'm2'],
-      view: ['older:t3', 'older:m1', 'prev:m2', 'cur:m3', 'next:k1'],
-      caption: 'Confirmed. The view jumps to “Why this matters”, and both sentences count as said. Slide 1 stays half done.' },
-    { scene: 4, heard: '', ppt: 2, where: 'test', said: ['w1', 'w2', 's1', 'm1', 'm2'],
-      view: ['cur:t1', 'next:t2'],
-      caption: 'PowerPoint is open, and you click back to slide 2. The slide on screen decides: PresentFlow goes to its first open section.' },
-    { scene: 4, heard: LINES.t1.text, ppt: 2, where: 'test', said: ['w1', 'w2', 's1', 'm1', 'm2', 't1'],
-      view: ['prev:t1', 'cur:t2', 'next:t3', END],
-      caption: 'Within the slide, it follows your speech as usual. After the slide’s last sentence comes a marked end, not slide 3.' },
-    { scene: 4, heard: LINES.t2.text, ppt: 2, where: 'test', said: ['w1', 'w2', 's1', 'm1', 'm2', 't1', 't2'],
-      view: ['older:t1', 'prev:t2', 'cur:t3', END],
-      caption: 'The last sentence of the slide. Nothing from slide 3 appears early.' },
-    { scene: 4, heard: LINES.t3.text, ppt: 2, where: 'test', said: ['w1', 'w2', 's1', 'm1', 'm2', 't1', 't2', 't3'],
-      view: ['older:t1', 'older:t2', 'prev:t3', 'done:✓ Slide done · Next: Slide 3 — Why it matters'],
-      caption: 'Slide done. PresentFlow holds here until you click to the next slide. That is the end of the demo.' }
-  ]
+  var WORD_MS = 270 // a time-lapse of speech
+  var PROCESS_MS = 900 // the app answers about a second after a phrase (local Whisper: 0.7–1.4 s)
+  var HOLD_MS = 3800 // time to read the result
+  var LEAD_MS = 600
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+  // ── Elements ─────────────────────────────────────────────
   var $ = function (sel) {
     return root.querySelector(sel)
   }
-  var el = {
+  var ui = {
+    wave: $('[data-wave]'),
+    said: $('[data-said]'),
+    caption: $('[data-caption]'),
+    where: $('[data-where]'),
     stage: $('[data-stage]'),
     points: $('[data-points]'),
     slides: $('[data-slides]'),
-    where: $('[data-where]'),
-    status: $('[data-status]'),
-    statusText: $('[data-status-text]'),
-    chip: $('[data-chip]'),
-    chipText: $('[data-chip-text]'),
-    heard: $('[data-heard]'),
-    caption: $('[data-caption]'),
     play: $('[data-play]'),
-    next: $('[data-next]'),
-    restart: $('[data-restart]'),
-    scenes: root.querySelectorAll('[data-scenes] li')
+    beats: $('[data-beats]'),
+    announce: $('[data-announce]')
   }
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   function node(tag, cls, text) {
     var n = document.createElement(tag)
@@ -95,230 +157,447 @@
     if (text != null) n.textContent = text
     return n
   }
-  function icon() {
-    return node('span', 'd-ico')
+  var ICONS = {
+    done: '<path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+    active: '<circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="8" r="3" fill="currentColor"/>',
+    partial: '<circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor"/>',
+    open: '<circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/>'
   }
-
-  /** The current sentence with its memory-cue words in bold, as in the app. */
-  function emphasized(line) {
-    var p = node('p', 'd-line cur')
-    var cue = line.cue.map(function (w) {
+  function icon(state) {
+    var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    s.setAttribute('class', 'state-icon ' + state)
+    s.setAttribute('viewBox', '0 0 16 16')
+    s.setAttribute('aria-hidden', 'true')
+    s.innerHTML = ICONS[state]
+    return s
+  }
+  function bare(word) {
+    return word.replace(/[^\p{L}\p{N}'-]/gu, '').toLowerCase()
+  }
+  /** Appends `text`; the words in `list` (lower case) go in <b>, or in a span of class `cls`. */
+  function words(parent, text, list, cls) {
+    text.split(/(\s+)/).forEach(function (part) {
+      var m = list && part.match(/^(.*?)([\p{L}\p{N}'-]+)(.*)$/u)
+      if (m && list.indexOf(m[2].toLowerCase()) >= 0) {
+        parent.appendChild(document.createTextNode(m[1]))
+        parent.appendChild(node(cls ? 'span' : 'b', cls || null, m[2]))
+        parent.appendChild(document.createTextNode(m[3]))
+      } else {
+        parent.appendChild(document.createTextNode(part))
+      }
+    })
+  }
+  function lower(list) {
+    return list.map(function (w) {
       return w.toLowerCase()
     })
-    line.text.split(/(\s+)/).forEach(function (part) {
-      var word = part.replace(/[^\p{L}\p{N}-]/gu, '').toLowerCase()
-      if (word && cue.indexOf(word) >= 0) {
-        var m = part.match(/^(.*?)([\p{L}\p{N}-]+)(.*)$/u)
-        p.appendChild(document.createTextNode(m[1]))
-        p.appendChild(node('b', null, m[2]))
-        p.appendChild(document.createTextNode(m[3]))
-      } else {
-        p.appendChild(document.createTextNode(part))
-      }
-    })
-    return p
   }
 
-  function renderStage(step) {
-    var frag = document.createDocumentFragment()
-    var lastSection = null
-    step.view.forEach(function (item) {
-      var i = item.indexOf(':')
-      var role = item.slice(0, i)
-      var value = item.slice(i + 1)
-      if (role === 'note') return frag.appendChild(node('p', 'd-note', value))
-      if (role === 'done') return frag.appendChild(node('p', 'd-done', value))
-      var line = LINES[value]
-      if (lastSection && line.s !== lastSection) {
-        // A next line on another slide also names the slide, as in the app.
-        var sec = SECTIONS[line.s]
-        var otherSlide = sec.slide !== SECTIONS[lastSection].slide
-        var label = role === 'next' ? '→ ' + (otherSlide ? SLIDES[sec.slide - 1].title + ' · ' : '') + sec.title : sec.title
-        frag.appendChild(node('p', role === 'next' ? 'd-label cont' : 'd-label', label))
-      }
-      lastSection = line.s
-      frag.appendChild(role === 'cur' ? emphasized(line) : node('p', 'd-line ' + role, line.text))
+  // ── The PresentFlow window (mirrors Stage.tsx and Navigator.tsx) ──
+  function slideOf(sec) {
+    for (var i = 0; i < SLIDES.length; i++) if (SLIDES[i].sections.indexOf(sec) >= 0) return i
+    return -1
+  }
+  /** "Section", or "Slide · Section" when it lies on another slide than the active section. */
+  function where(id, st) {
+    var sec = LINE[id].sec
+    var s = slideOf(sec)
+    return s === slideOf(st.active) ? SECTIONS[sec] : SLIDES[s].title + ' · ' + SECTIONS[sec]
+  }
+  function linesOf(sec) {
+    return TALK.filter(function (r) {
+      return r[1] === sec
+    }).map(function (r) {
+      return r[0]
     })
-    el.stage.replaceChildren(frag)
   }
-
-  function lineState(step, id, cur) {
-    if (step.said.indexOf(id) >= 0) return 'said'
-    return id === cur ? 'current' : 'open'
+  function has(list, id) {
+    return list.indexOf(id) >= 0
   }
-  function sectionState(step, key) {
-    var lines = SECTIONS[key].lines
-    var said = lines.filter(function (id) {
-      return step.said.indexOf(id) >= 0
+  function sectionStatus(st, sec) {
+    var ids = linesOf(sec)
+    var said = ids.filter(function (id) {
+      return has(st.said, id)
     }).length
-    if (key === step.where) return 'active'
-    if (lines.length && said === lines.length) return 'done'
-    return said ? 'partial' : 'open'
+    return said === ids.length ? 'done' : said ? 'partial' : 'open'
+  }
+  function hasSkipped(st, sec) {
+    return linesOf(sec).some(function (id) {
+      return has(st.skipped, id)
+    })
   }
 
-  function renderSide(step) {
-    var curItem = step.view.filter(function (v) {
-      return v.indexOf('cur:') === 0
-    })[0]
-    var cur = curItem ? curItem.slice(4) : null
-    var section = SECTIONS[step.where]
+  function renderStage(st, highlight) {
+    var cur = LINE[st.current]
+    var past = []
+    for (var k = cur.at - 1; k >= 0 && past.length < 3; k--) past.unshift(TALK[k][0])
 
-    var points = document.createDocumentFragment()
-    points.appendChild(node('h4', null, section.title))
-    section.lines.forEach(function (id) {
-      var row = node('div', 'd-point ' + lineState(step, id, cur))
-      row.appendChild(icon())
-      row.appendChild(node('span', null, LINES[id].cue.join(' → ')))
-      points.appendChild(row)
+    var pastBox = node('div', 'past')
+    past.forEach(function (id, i) {
+      var p = node('p', 'line' + (i === past.length - 1 ? ' newest' : '') + (has(st.skipped, id) ? ' skipped' : ''))
+      p.dataset.id = id
+      if (i > 0 && LINE[id].sec !== LINE[past[i - 1]].sec) p.appendChild(node('span', 'cont', where(id, st)))
+      words(p, LINE[id].text, highlight && highlight.id === id ? highlight.words : null, 'hit')
+      if (has(st.skipped, id)) p.appendChild(node('span', 'sr-only', ' (skipped)'))
+      pastBox.appendChild(p)
     })
-    el.points.replaceChildren(points)
+    var continuation = cur.sec !== st.active
+    var last = past.length ? LINE[past[past.length - 1]] : null
+    if (continuation || !last || last.sec !== cur.sec) {
+      pastBox.appendChild(node('div', 'tag' + (continuation ? ' cont' : ''), continuation ? '→ ' + where(cur.id, st) : SECTIONS[cur.sec]))
+    }
 
-    var slides = document.createDocumentFragment()
-    slides.appendChild(node('h4', null, 'Slides'))
+    var current = node('p', 'current')
+    current.dataset.id = cur.id
+    words(current, cur.text, lower(cur.cue))
+
+    var upcoming = node('div', 'upcoming')
+    st.upcoming.forEach(function (id, i) {
+      var p = node('p', 'item' + (i === 1 ? ' second' : ''))
+      p.dataset.id = id
+      var prev = i === 0 ? cur.sec : LINE[st.upcoming[i - 1]].sec
+      if (LINE[id].sec !== prev) p.appendChild(node('span', 'cont', '→ ' + where(id, st)))
+      p.appendChild(document.createTextNode(LINE[id].text))
+      upcoming.appendChild(p)
+    })
+    ui.stage.replaceChildren(pastBox, current, upcoming)
+  }
+
+  function renderNav(st) {
+    var points = [node('h3', null, SECTIONS[st.active])]
+    linesOf(st.active).forEach(function (id) {
+      var state = has(st.said, id) ? 'said' : id === st.current ? 'current' : has(st.skipped, id) ? 'skipped' : 'open'
+      var row = node('div', 'point ' + state)
+      row.dataset.id = id
+      row.appendChild(icon(state === 'said' ? 'done' : state === 'current' ? 'active' : 'open'))
+      row.appendChild(node('span', null, LINE[id].cue.join(' → ')))
+      if (state === 'skipped') row.appendChild(node('span', 'sr-only', ' (skipped)'))
+      points.push(row)
+    })
+    ui.points.replaceChildren.apply(ui.points, points)
+
+    var slides = [node('h3', null, 'Slides')]
     SLIDES.forEach(function (slide) {
-      var states = slide.sections.map(function (k) {
-        return sectionState(step, k)
+      var statuses = slide.sections.map(function (sec) {
+        return sectionStatus(st, sec)
       })
-      var isActive = slide.sections.indexOf(step.where) >= 0
-      var allDone = states.every(function (st) {
-        return st === 'done'
-      })
-      var anyStarted = states.some(function (st) {
-        return st !== 'open'
-      })
-      var row = node('div', 'd-row ' + (isActive ? 'active' : allDone ? 'done' : anyStarted ? 'partial' : 'open'))
-      row.appendChild(icon())
-      row.appendChild(node('span', null, slide.title))
-      slides.appendChild(row)
-      if (!isActive) return
-      slide.sections.forEach(function (k, i) {
-        var sub = node('div', 'd-row sub ' + states[i])
-        sub.appendChild(icon())
-        sub.appendChild(node('span', null, SECTIONS[k].title))
-        slides.appendChild(sub)
+      var active = has(slide.sections, st.active)
+      var state = active
+        ? 'active'
+        : statuses.every(function (s) {
+              return s === 'done'
+            })
+          ? 'done'
+          : statuses.some(function (s) {
+                return s !== 'open'
+              })
+            ? 'partial'
+            : 'open'
+      var row = node('div', 'row slide' + (active ? ' current' : ''))
+      row.appendChild(icon(state))
+      row.appendChild(node('span', 't', slide.title))
+      if (!active && slide.sections.some(hasSkipped.bind(null, st))) row.appendChild(node('span', 'skip-dot'))
+      slides.push(row)
+      if (!active) return
+      slide.sections.forEach(function (sec, i) {
+        var isActive = sec === st.active
+        var sub = node('div', 'row nested' + (isActive ? ' active' : ''))
+        sub.dataset.sec = sec
+        sub.appendChild(icon(isActive ? 'active' : statuses[i]))
+        sub.appendChild(node('span', 't', SECTIONS[sec]))
+        if (hasSkipped(st, sec)) sub.appendChild(node('span', 'skip-dot'))
+        slides.push(sub)
       })
     })
-    el.slides.replaceChildren(slides)
+    ui.slides.replaceChildren.apply(ui.slides, slides)
 
-    var slide = SLIDES[section.slide - 1]
-    el.where.replaceChildren(document.createTextNode(slide.title + ' · '), node('b', null, section.title))
-    el.chip.hidden = !step.ppt
-    if (step.ppt) el.chipText.textContent = 'Slide ' + step.ppt
+    var slide = SLIDES[slideOf(st.active)]
+    ui.where.replaceChildren(document.createTextNode(slide.title + ' · '), node('b', null, SECTIONS[st.active]))
   }
 
-  function renderScenes(step) {
-    el.scenes.forEach(function (li, i) {
-      li.classList.toggle('on', i === step.scene && index > 0)
-      li.classList.toggle('seen', i < step.scene)
+  var shown = null // key of the state on screen
+  function show(key, opts) {
+    opts = opts || {}
+    var moved = shown !== null && shown !== key
+    if (shown === key && !opts.highlight && !opts.force) return
+    shown = key
+    renderStage(STATES[key], opts.highlight)
+    renderNav(STATES[key])
+    root.classList.toggle('moved', moved && !opts.instant)
+  }
+  /** Tints lines and talking points until the next render: blue for matched, amber for skipped. */
+  function mark(list) {
+    ;(list || []).forEach(function (m) {
+      root.querySelectorAll('[data-id="' + m[0] + '"]').forEach(function (n) {
+        n.classList.add('mark')
+        if (m[1] === 'warn') n.classList.add('warn')
+      })
     })
   }
 
-  function apply(step) {
-    renderStage(step)
-    renderSide(step)
-    renderScenes(step)
-    el.caption.textContent = step.caption
+  // ── The speaker ──────────────────────────────────────────
+  var HEIGHTS = [0.35, 0.6, 0.9, 0.55, 0.75, 1, 0.45, 0.7, 0.95, 0.5, 0.8, 0.4, 0.65, 0.9, 0.55, 0.3, 0.7, 0.85, 0.5, 0.6, 0.95, 0.4, 0.75, 0.5]
+  HEIGHTS.forEach(function (h, i) {
+    var bar = node('i')
+    bar.style.setProperty('--h', h)
+    bar.style.setProperty('--i', i)
+    ui.wave.appendChild(bar)
+  })
+  function speak(step, count) {
+    var list = step.say.split(' ')
+    var frag = document.createDocumentFragment()
+    list.slice(0, count).forEach(function (w, i) {
+      if (i) frag.appendChild(document.createTextNode(' '))
+      frag.appendChild(node('span', null, w))
+    })
+    ui.said.replaceChildren(frag)
+    ui.said.classList.remove('stale')
+  }
+  /** After a paraphrase: the words it shares with the script sentence stand out, the rest steps back. */
+  function showShared(step) {
+    ui.said.querySelectorAll('span').forEach(function (s) {
+      s.className = has(step.shared, bare(s.textContent)) ? 'hit' : 'miss'
+    })
+  }
+  function setCaption(text, tone) {
+    ui.caption.textContent = text
+    ui.caption.dataset.tone = tone || ''
+    ui.caption.classList.remove('fresh')
+    void ui.caption.offsetWidth // restart the entrance animation
+    ui.caption.classList.add('fresh')
+  }
+  /** The whole beat in words, for the screen-reader announcement. */
+  function story(beat) {
+    return (
+      beat.title +
+      '. ' +
+      beat.steps
+        .map(function (s) {
+          return s.setup + ' ' + s.result
+        })
+        .join(' ')
+    )
   }
 
-  // ── Playback ────────────────────────────────────────────
-  var index = 0
+  // ── Controls ─────────────────────────────────────────────
+  var chips = BEATS.map(function (beat, i) {
+    var b = node('button', 'beat')
+    b.type = 'button'
+    b.appendChild(node('span', 'n', String(i + 1)))
+    b.appendChild(document.createTextNode(beat.title))
+    b.appendChild(node('span', 'bar'))
+    b.addEventListener('click', function () {
+      choose(i)
+    })
+    ui.beats.appendChild(b)
+    return b
+  })
+  /** Story-style progress: earlier beats full, the current one filling, later ones empty. */
+  function select(i, p) {
+    chips.forEach(function (c, k) {
+      c.style.setProperty('--p', k < i ? 1 : k === i ? p : 0)
+      if (k === i) c.setAttribute('aria-current', 'step')
+      else c.removeAttribute('aria-current')
+    })
+  }
+  function fill(i, p) {
+    chips[i].style.setProperty('--p', Math.min(1, p))
+  }
+
+  // ── Playback: one cursor, one timer ──────────────────────
+  var cur = null // { beat, step, phase, word, elapsed }
+  var timer = null
+  var pending = null // { fn, due, ms }
+  var raf = 0
   var playing = false
-  var typing = null // interval id while the "heard" text is arriving
-  var wait = null // timeout id between steps
+  var single = false // play one chosen beat, then stop
+  var userPaused = false
+  var started = false
 
-  function clearTimers() {
-    clearInterval(typing)
-    clearTimeout(wait)
-    typing = null
-    wait = null
-    el.status.classList.remove('hearing')
+  function duration(beat) {
+    return (
+      LEAD_MS +
+      beat.steps.reduce(function (sum, s) {
+        return sum + s.say.split(' ').length * WORD_MS + PROCESS_MS + (s.hold || HOLD_MS)
+      }, 0)
+    )
   }
-
-  function updateButtons() {
-    var atEnd = index >= STEPS.length - 1
-    el.play.textContent = playing ? 'Pause' : atEnd ? 'Replay' : index === 0 ? 'Play' : 'Resume'
-    el.next.disabled = atEnd && !typing
+  function later(fn, ms) {
+    clearTimeout(timer)
+    pending = { fn: fn, due: performance.now() + ms, ms: ms }
+    timer = setTimeout(function () {
+      cur.elapsed += pending.ms
+      pending = null
+      fn()
+    }, ms)
   }
-
-  /** Show step i: type its heard text word by word, then apply the snapshot. */
-  function goTo(i, instant) {
-    clearTimers()
-    index = i
-    var step = STEPS[i]
-    var words = step.heard ? step.heard.split(' ') : []
-    if (!words.length || instant || reduceMotion) {
-      el.heard.textContent = step.heard
-      apply(step)
-      return scheduleNext(step)
+  function halt() {
+    clearTimeout(timer)
+    timer = null
+    if (pending && cur) {
+      var left = Math.max(0, pending.due - performance.now())
+      cur.elapsed += pending.ms - left
+      pending.ms = left
     }
-    el.heard.textContent = ''
-    el.status.classList.add('hearing')
-    var w = 0
-    typing = setInterval(function () {
-      el.heard.textContent = words.slice(0, ++w).join(' ')
-      if (w < words.length) return
-      clearInterval(typing)
-      typing = null
-      el.status.classList.remove('hearing')
-      wait = setTimeout(function () {
-        apply(step)
-        scheduleNext(step)
-      }, 450)
-    }, 95)
-    updateButtons()
+  }
+  function frame() {
+    raf = 0
+    if (!playing || !cur) return
+    var p = cur.elapsed + (pending ? pending.ms - Math.max(0, pending.due - performance.now()) : 0)
+    fill(cur.beat, p / duration(BEATS[cur.beat]))
+    raf = requestAnimationFrame(frame)
+  }
+  function setPhase(phase) {
+    cur.phase = phase
+    root.dataset.phase = phase
+  }
+  function setPlaying(on) {
+    playing = on
+    root.dataset.playing = String(on)
+    ui.play.setAttribute('aria-label', on ? 'Pause demo' : 'Play demo')
+    if (on && !raf) raf = requestAnimationFrame(frame)
+  }
+  function stepOf() {
+    return BEATS[cur.beat].steps[cur.step]
+  }
+  function startOf(i) {
+    if (i === 0) return 'start'
+    var steps = BEATS[i - 1].steps
+    return steps[steps.length - 1].state
   }
 
-  function scheduleNext(step) {
-    updateButtons()
-    if (!playing) return
-    if (index >= STEPS.length - 1) {
-      playing = false
-      return updateButtons()
+  function beginBeat(i) {
+    halt()
+    pending = null
+    cur = { beat: i, step: 0, phase: 'speaking', word: 0, elapsed: 0 }
+    root.dataset.beat = String(i)
+    select(i, 0)
+    show(startOf(i), { instant: true, force: true })
+    ui.said.classList.add('stale') // the last phrase fades until the next one starts
+    setCaption(BEATS[i].steps[0].setup, '')
+    setPhase('settled')
+    later(beginStep, LEAD_MS)
+  }
+  function beginStep() {
+    cur.word = 0
+    ui.said.classList.add('stale')
+    if (ui.caption.textContent !== stepOf().setup) setCaption(stepOf().setup, '')
+    setPhase('speaking')
+    later(tick, WORD_MS)
+  }
+  function tick() {
+    var step = stepOf()
+    if (cur.phase === 'speaking') {
+      speak(step, ++cur.word)
+      if (cur.word < step.say.split(' ').length) return later(tick, WORD_MS)
+      setPhase('processing')
+      mark(
+        (step.matched || []).map(function (id) {
+          return [id]
+        })
+      )
+      return later(tick, PROCESS_MS)
     }
-    wait = setTimeout(function () {
-      goTo(index + 1)
-    }, Math.max(3200, step.caption.length * 42))
+    if (cur.phase === 'processing') {
+      settle(step)
+      return later(tick, step.hold || HOLD_MS)
+    }
+    // settled: next step, next beat, or stop after a chosen beat
+    if (cur.step + 1 < BEATS[cur.beat].steps.length) {
+      cur.step++
+      return beginStep()
+    }
+    if (single) return finish()
+    beginBeat((cur.beat + 1) % BEATS.length)
+  }
+  function settle(step) {
+    show(step.state, step.shared ? { highlight: { id: 's1', words: step.shared } } : null)
+    if (step.shared) showShared(step)
+    setCaption(step.result, step.tone || 'ok')
+    setPhase('settled')
+    mark(step.marks)
+  }
+  function finish() {
+    halt()
+    pending = null
+    fill(cur.beat, 1)
+    setPlaying(false)
+    ui.announce.textContent = story(BEATS[cur.beat])
   }
 
-  function play() {
-    playing = true
-    if (index >= STEPS.length - 1) return goTo(1)
-    if (typing) return updateButtons() // still typing; it continues on its own
-    goTo(index + 1)
+  /** A beat's end state at once: the resting state, and every chip click with reduced motion. */
+  function showEnd(i) {
+    halt()
+    pending = null
+    var steps = BEATS[i].steps
+    var step = steps[steps.length - 1]
+    cur = { beat: i, step: steps.length - 1, phase: 'settled', word: 0, elapsed: 0 }
+    root.dataset.beat = String(i)
+    show(startOf(i), { instant: true, force: true })
+    speak(step, Infinity)
+    settle(step)
+    root.classList.remove('moved')
+    select(i, 1)
   }
-  function pause() {
-    playing = false
-    if (typing) {
-      goTo(index, true) // finish the current step at once
+
+  function choose(i) {
+    userPaused = false
+    started = true
+    single = true
+    if (reduceMotion) {
+      setPlaying(false)
+      showEnd(i)
+      ui.announce.textContent = story(BEATS[i])
       return
     }
-    clearTimers()
-    updateButtons()
+    setPlaying(true)
+    beginBeat(i)
+  }
+  function play() {
+    single = false
+    setPlaying(true)
+    if (pending) return later(pending.fn, pending.ms) // resume mid-beat
+    beginBeat(started ? (cur.beat + 1) % BEATS.length : 0) // from the resting state: from the top
+    started = true
+  }
+  function pause() {
+    halt()
+    setPlaying(false)
   }
 
-  el.play.addEventListener('click', function () {
-    playing ? pause() : play()
-  })
-  el.next.addEventListener('click', function () {
-    if (typing) return goTo(index, true)
-    if (index < STEPS.length - 1) goTo(index + 1, !playing)
-  })
-  el.restart.addEventListener('click', function () {
-    goTo(0, true) // continues on its own while playing
+  ui.play.addEventListener('click', function () {
+    if (playing) {
+      userPaused = true
+      pause()
+    } else {
+      userPaused = false
+      play()
+    }
   })
 
-  goTo(0, true)
+  // Resting state: the end of the first beat, so the still frame already makes sense.
+  showEnd(0)
 
-  // Start once, the first time the demo comes into view (not with reduced motion).
+  // Autoplay while a good part of the demo is on screen (never with reduced motion or after a manual pause).
   if (!reduceMotion && 'IntersectionObserver' in window) {
-    var io = new IntersectionObserver(
+    new IntersectionObserver(
       function (entries) {
-        if (!entries[0].isIntersecting) return
-        io.disconnect()
-        if (index === 0 && !playing) play()
+        var visible = entries[0].isIntersecting
+        if (visible && !playing && !userPaused) {
+          if (!started) {
+            started = true
+            single = false
+            setPlaying(true)
+            beginBeat(0)
+          } else if (pending) {
+            setPlaying(true)
+            later(pending.fn, pending.ms)
+          }
+        } else if (!visible && playing) {
+          pause()
+        }
       },
-      { threshold: 0.45 }
-    )
-    io.observe(root)
+      { threshold: 0.3 }
+    ).observe(root)
   }
 })()

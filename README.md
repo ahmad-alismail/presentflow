@@ -20,7 +20,7 @@ in your prepared script (including jumps between sections), and always shows **w
 
 - **Follows your voice.** Jump to another section and the view follows after a sentence or two.
 - **Remembers what's left.** Skipped content stays in its section with an amber dot. It is never forced back on screen.
-- **Memory cues from your own words.** Press `R` for a cue like `three → risks → countermeasures`, press again for the full sentence.
+- **Memory cues from your own words.** Press `R` for a cue like `three → concrete → risks → countermeasures`, press again for the full sentence.
 - **Paraphrasing is fine.** Fuzzy word matching plus meaning-based matching, in German and English.
 - **PowerPoint sync.** The slide on screen decides what you see. Import a `.pptx` and its speaker notes become your script.
 - **Private by default.** Speech recognition runs locally on your GPU (Whisper) and works offline after a one-time model download.

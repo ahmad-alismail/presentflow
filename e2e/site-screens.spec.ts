@@ -1,8 +1,9 @@
-// Website screenshots (opt-in: PF_SITE_SHOTS=1). English UI, dark theme, an English demo script, injected
-// transcripts and a simulated PowerPoint feed. Writes PNGs to site/media/ (or PF_SITE_SHOTS_DIR).
+// README screenshot (opt-in: PF_SITE_SHOTS=1). English UI, dark theme, an English demo script and injected
+// transcripts. Writes site/media/screen-rehearsal.png (or into PF_SITE_SHOTS_DIR). The same talk drives the
+// website demo (site/assets/demo.js).
 import fs from 'node:fs'
 import path from 'node:path'
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 import { hear, launch } from './app'
 
 test.skip(!process.env.PF_SITE_SHOTS, 'opt-in: PF_SITE_SHOTS=1')
@@ -60,15 +61,12 @@ const SCRIPT = SLIDES.map(([slide, sections]) =>
 ).join('\n\n')
 const line = (slide: number, section: number, n: number) => SLIDES[slide][1][section][1][n]
 
-const ppt = (page: Page, state: object) => page.evaluate((s) => (window as any).__pf.ppt(s), state)
-const show = (slide: number) => ({ connected: true, mode: 'show', slide, count: 4, title: '', file: 'C:\\Talks\\Agent-safety.pptx' })
-
-async function openDemo(followPowerPoint: boolean) {
+async function openDemo() {
   fs.mkdirSync(out, { recursive: true })
   const launched = await launch()
   const { page } = launched
   await page.setViewportSize(size)
-  await page.evaluate((f) => window.presentflow.settings.set({ uiLanguage: 'en', theme: 'dark', followPowerPoint: f }), followPowerPoint)
+  await page.evaluate(() => window.presentflow.settings.set({ uiLanguage: 'en', theme: 'dark', followPowerPoint: false }))
   await page.getByTestId('new').click()
   await page.getByPlaceholder(/title/i).fill(TITLE)
   await page.getByTestId('script-input').fill(SCRIPT)
@@ -79,13 +77,8 @@ async function openDemo(followPowerPoint: boolean) {
   return { ...launched, shot }
 }
 
-test('site screenshots: editor, rehearsal, jump, settings, summary', async () => {
-  const { app, page, shot } = await openDemo(false)
-  await page.getByRole('tab', { name: 'Outline' }).click()
-  await page.getByTestId('script-input').evaluate((el) => (el.scrollTop = 0))
-  await expect(page.locator('.outline-section').first()).toContainText('Welcome')
-  await shot('screen-editor')
-
+test('README screenshot: following a talk', async () => {
+  const { app, page, shot } = await openDemo()
   await page.getByTestId('editor-rehearse').click()
   await expect(page.getByTestId('current')).toContainText('Good morning')
   await hear(page, 'u1', line(0, 0, 0))
@@ -93,34 +86,5 @@ test('site screenshots: editor, rehearsal, jump, settings, summary', async () =>
   await expect(page.getByTestId('current')).toContainText('three concrete risks')
   await expect(page.getByTestId('prev-older')).toContainText('Good morning')
   await shot('screen-rehearsal')
-
-  // Jump ahead to "Why this matters": the view follows.
-  await hear(page, 'u3', line(2, 0, 0))
-  await hear(page, 'u4', line(2, 0, 1))
-  await expect(page.getByTestId('where')).toContainText('Why this matters')
-  await shot('screen-jump')
-
-  await page.getByRole('button', { name: 'Settings' }).click()
-  await expect(page.getByTestId('settings')).toBeVisible()
-  await page.getByRole('tab').nth(1).click()
-  await shot('screen-settings')
-  await page.keyboard.press('Escape')
-
-  await page.getByTestId('stop').click()
-  await expect(page.getByTestId('summary')).toBeVisible()
-  await shot('screen-summary')
-  await app.close()
-})
-
-test('site screenshot: PowerPoint holds at the end of the slide', async () => {
-  const { app, page, shot } = await openDemo(true)
-  await page.getByTestId('editor-rehearse').click()
-  await ppt(page, show(1))
-  await expect(page.getByTestId('current')).toContainText('Good morning')
-  const said = [line(0, 0, 0), line(0, 0, 1), line(0, 0, 2), line(0, 1, 0), line(0, 1, 1)]
-  for (const [i, text] of said.entries()) await hear(page, `s${i}`, text)
-  await expect(page.getByTestId('current')).toContainText('without direct oversight')
-  await expect(page.getByTestId('slide-end')).toContainText('Experiments')
-  await shot('screen-slide-end')
   await app.close()
 })
